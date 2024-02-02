@@ -1,0 +1,10 @@
+#ifndef ALIMENTATIONTYPE_HPP
+#define ALIMENTATIONTYPE_HPP
+
+enum class AlimentationType {
+    HERBIVORE,
+    CARNIVORE,
+    OMNIVORE
+};
+
+#endif // ALIMENTATIONTYPE_HPP
