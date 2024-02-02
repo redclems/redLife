@@ -1,0 +1,126 @@
+classDiagram
+    
+   
+    class Animal {
+        - vitesse: float
+        - niveauFaim: int
+        - niveauSoif: int
+        - barreDeVie: int
+        - poids: float
+        - tailleHauteur: float
+        - tailleLargeur: float
+        - gourmandise: int
+        - envieReproduction: int
+        - espritAventure: int
+        - habitudeAlimentaire: AlimentationType
+        - typeDeplacemnt: DeplacementType
+        - strategieDeplacement: DeplacementStrategy*
+
+        + seDeplacer()
+        + manger()
+        + boire()
+        + reproduire()
+        + chasser()
+    }
+
+    class DeplacementStrategy {
+        + virtual deplacer()
+    }
+
+    class Plante {
+        - niveauNutrition: int
+        - raretePousse: int
+        - pousseDansEau: bool
+    }
+
+
+    class Element{
+        - posX: int
+        - posY: int
+        - shema: char
+        - couleur: CouleurAnnimal
+
+        + getDraw()
+    }
+
+    class Carte {
+        - hauteur: int
+        - largeur: int
+        - heure: int
+        - jour: int
+        - elements: Element[]
+        
+        + createMap()
+        + run()
+        - nouvelJournee()
+    }
+
+    class CouleurAnnimal {
+        - ROUGE
+        - JAUNE
+        - VIOLET
+        - ROSE
+        - BLANC
+        - ORANGE
+    }
+
+    class AlimentationType {
+        - HERBIVORE
+        - CARNIVORE
+        - OMNIVORE
+    }
+
+    class DeplacementType {
+        - MARCHE
+        - NAGE
+        - MARCHE_NAGE
+    }
+
+    class Lion {
+    }
+
+    class Gazelle {
+    }
+
+    class Poisson {
+    }
+
+    class Rennard {
+    }
+    
+    class Lapin {
+    }
+
+    class Poule {
+    }
+
+    class Crocodil {
+    }
+
+    class Ours {
+    }
+
+    class Chevreuil {
+    }
+
+    class Giraf {
+    }
+
+    Carte <|-- Element
+
+    Element <|-- Animal
+    Element <|-- Plante
+
+    Animal <|-- Lion
+    Animal <|-- Gazelle
+    Animal <|-- Poisson
+    Animal <|-- Rennard
+    Animal <|-- Lapin
+    Animal <|-- Poule
+    Animal <|-- Crocodil
+    Animal <|-- Ours
+    Animal <|-- Chevreuil
+    Animal <|-- Giraf
+
+    Animal "1"--o"*" DeplacementStrategy
+
