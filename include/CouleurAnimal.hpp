@@ -4,10 +4,11 @@
 enum class CouleurAnimal {
     ROUGE,
     JAUNE,
-    VIOLET,
     ROSE,
     BLANC,
-    ORANGE
+    VERT,
+    BLEU,
+    CYAN
 };
 
 #endif // COULEURANIMAL_HPP

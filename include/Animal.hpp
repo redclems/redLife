@@ -1,11 +1,12 @@
 #ifndef ANIMAL_HPP
 #define ANIMAL_HPP
 
+#include "Element.hpp"
 #include "AlimentationType.hpp"
 #include "DeplacementType.hpp"
 #include "DeplacementStrategy.hpp"
 
-class Animal {
+class Animal : public Element{
 private:
     float vitesse;
     int niveauFaim;
@@ -22,11 +23,10 @@ private:
     DeplacementStrategy* strategieDeplacement;
 
 public:
-    Animal(float vitesse, int niveauFaim, int niveauSoif, int barreDeVie, float poids,
+    Animal(int x, int y, char s, CouleurAnimal c, Carte* carte, float vitesse, int niveauFaim, int niveauSoif, int barreDeVie, float poids,
            float tailleHauteur, float tailleLargeur, int gourmandise, int envieReproduction,
            int espritAventure, AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement,
            DeplacementStrategy* strategieDeplacement);
-    virtual ~Animal() {}
 
     void seDeplacer();
     void manger();
