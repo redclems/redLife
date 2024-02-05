@@ -1,12 +1,13 @@
 #include "Carte.hpp"
 
 #include <iostream>
-#include <random> 
+#include <cstdlib> 
 #include <ctime>
 
 #include <unistd.h> 
 #include "Decor.hpp"
 #include "Plante.hpp"
+#include "Animal.hpp"
 
 Carte::Carte(int hauteur, int largeur) : hauteur(hauteur), largeur(largeur){
     // Initialisation de la matrice d'éléments représentant la carte
@@ -15,12 +16,11 @@ Carte::Carte(int hauteur, int largeur) : hauteur(hauteur), largeur(largeur){
     this->nbElement = 0;
     this->elements = new Element*[hauteur];
     for (int i = 0; i < hauteur; ++i) {
-        this->elements[i] = new Element[largeur];
+        this->elements[i] = new Vide[largeur];
     }
 }
 
 int random(int min, int max) {
-    std::srand(std::time(nullptr));
     return min + std::rand() % (max - min + 1);
 }
 
@@ -36,8 +36,10 @@ void Carte::createMap() {
         int x = random(0, this->largeur);
         int y = random(0, this->hauteur);
 
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
+        int laregeurdx = random(1, this->largeur/20);
+        int hauteurdy  = random(1, this->hauteur/20);
+        for (int dx = -laregeurdx; dx <= laregeurdx; dx++) {
+            for (int dy = -hauteurdy; dy <= hauteurdy; dy++) {
                 int newX = x + dx;
                 int newY = y + dy;
                 if(newX >= 0 && newY >= 0 && newX<largeur && newY<hauteur){
@@ -49,7 +51,7 @@ void Carte::createMap() {
 
 
     //les buisson
-    int nbBuisson = random(min*2, max*2);
+    int nbBuisson = random(min*2, max*3);
 
     for(int i = 0; i < nbBuisson; i++){
         int x = random(0, this->largeur);
@@ -66,19 +68,20 @@ void Carte::createMap() {
         }
     }
 
+    //faire apparaitre les annimaux
+
 
     std::cout << "La carte a été créée avec succès !" << std::endl;
 }
 
 void Carte::run() {
     while (true) {
-
-        this->nouvelHeure();
-
         //nouveau jour
-        if (this->heure >= 24) {
+        if (this->heure >= 24 || (this->heure == 0 && this->jour == 0)) {
             this->nouvelJournee();
         }
+
+        this->nouvelHeure();
 
         // afficher 
         this->afficherCarte();
@@ -90,11 +93,29 @@ void Carte::run() {
 
 void Carte::afficherCarte() {
     // affichage
+    int tailleEcrireJour = 10; // pour afficher "j: / h: " 
+    int tempJour = this->jour;
+    while (tempJour / 10 != 0) {
+        tempJour /= 10;
+        tailleEcrireJour++;
+    }
+    if(this->heure < 10){
+        tailleEcrireJour++;
+    }else{
+        tailleEcrireJour+=2;
+    }
+
+    for (int i = 0; i < largeur-tailleEcrireJour; ++i) {
+        std::cout << "-";
+    }
+
+    std::cout << "j: " << this->jour << " / h: " << this->heure << std::endl;
     for (int i = 0; i < hauteur; ++i) {
         for (int j = 0; j < largeur; ++j) {
             elements[i][j].getDraw();
         }
-        std::cout << std::endl; // Aller à la ligne pour afficher la prochaine rangée
+
+        std::cout << "|" << std::endl; // Aller à la ligne pour afficher la prochaine rangée
     }
 }
 
@@ -122,8 +143,9 @@ void Carte::nouvelJournee() {
     for (int i = 0; i < this->hauteur; ++i) {
         for (int j = 0; j < this->largeur; ++j) {
             //5% de chance d'une plante apres il faut faire d'autre plante
-            if (random(0, 100) < 5 && !positionOccupee(j, i)) {
-                this->elements[i][j] = Plante(i, j, 'p', 2, 0.5, false);
+            if (random(0, 100) < 3 && !positionOccupee(j, i)) {
+                //todo permetre de verifier si on est une plante eau ou plante de terre
+                this->elements[i][j] = Plante(i, j, 'p',  CouleurAnimal::ROUGE, this, 2, false);
             }
         }
     }
@@ -140,13 +162,12 @@ void Carte::deplacerObjet(int x, int y, int newX, int newY) {
 
     //Déplacer
     elements[newY][newX] = elements[y][x];
-    elements[y][x] = Element(); // Réinitialiser
+    elements[y][x] = Vide(); // Réinitialiser
 }
 
 bool Carte::positionOccupee(int x, int y) {
     // Vérifier
-    if (x < 0 || x >= largeur || y < 0 || y >= hauteur ||
-        newX < 0 || newX >= largeur || newY < 0 || newY >= hauteur) {
+    if (x < 0 || x >= largeur || y < 0 || y >= hauteur) {
         return false;
     }
 

@@ -2,7 +2,7 @@
 
 int main() {
 
-    Carte carte(100, 100);
+    Carte carte(35, 150);
 
     carte.createMap();
     carte.run();

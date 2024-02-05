@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra -Iinclude
+CXXFLAGS = -Wall -Wextra -Iinclude -std=c++14
 
 SRCDIR = src
 INCDIR = include
@@ -27,4 +27,5 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 
 clean:
 	rm -rf $(OBJDIR) $(BINDIR)
-
+clear:
+	clear

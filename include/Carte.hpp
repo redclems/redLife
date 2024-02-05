@@ -1,8 +1,6 @@
 #ifndef CARTE_HPP
 #define CARTE_HPP
 
-#include "Element.hpp"
-
 //declaration avancée de Element
 class Element;
 
@@ -18,7 +16,6 @@ private:
 
 public:
     Carte(int hauteur, int largeur);
-    ~Carte();
 
     void afficherCarte();
     void createMap();
@@ -28,5 +25,7 @@ public:
     void deplacerObjet(int x, int y, int newX, int newY);
     bool positionOccupee(int x, int y);
 };
+
+#include "Element.hpp"
 
 #endif // CARTE_HPP

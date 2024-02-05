@@ -33,6 +33,7 @@ public:
     void boire();
     void reproduire();
     void chasser();
+    virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 
 #endif // ANIMAL_HPP

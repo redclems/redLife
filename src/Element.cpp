@@ -4,7 +4,7 @@
 
 Element::Element() : posX(0), posY(0), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {}
 
-Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte) : posX(x), posY(y), symbol(s), couleur(c), type(type) {}
+Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte) : posX(x), posY(y), symbol(s), couleur(c), type(type), carte(carte){}
 
 void Element::getDraw() {
     // Définir la couleur en fonction de celle souhaitée
@@ -38,7 +38,7 @@ void Element::getDraw() {
 
 bool Element::estAnimal() {
     // Vérifie si l'élément est de type animal
-    return type == TypeElement::ANIMAL;
+    return type == TypeElement::ANNIMAL;
 }
 
 bool Element::estVide() {
@@ -50,15 +50,25 @@ Carte* Element::getCarte(){
     return this->carte;
 }
 
-int Animal::getPosX(){
+int Element::getPosX(){
     return this->posX;
 }
 
-int Animal::getPosY(){
+int Element::getPosY(){
     return this->posY;
 }
 
-void Animal::newPos(int x, int y){
+void Element::newPos(int x, int y){
     this->posX = x;
     this->posY = y;
+}
+
+Vide::Vide() : Element() {
+}
+
+Vide::Vide(int x, int y, char s, CouleurAnimal c, Carte* carte)
+    : Element(x, y, s, c, TypeElement::VIDE, carte) {
+}
+
+void Vide::methodeVidePourFaireUneAbstracClasse() {
 }

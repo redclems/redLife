@@ -1,8 +1,6 @@
 #ifndef DEPLACEMENTSTRATEGY_HPP
 #define DEPLACEMENTSTRATEGY_HPP
 
-#include "Animal.hpp"
-
 //declaration avancée de annimal
 //du a une dependance circulaire
 class Animal;
@@ -16,4 +14,8 @@ class DeplacementBasic : public DeplacementStrategy {
 public:
     void deplacer(Animal& annimal) override;
 };
+
+#include "Animal.hpp"
+
+
 #endif // DEPLACEMENTSTRATEGY_HPP

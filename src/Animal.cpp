@@ -9,6 +9,10 @@ Animal::Animal(int x, int y, char s, CouleurAnimal c, Carte* carte, float vitess
       envieReproduction(envieReproduction), espritAventure(espritAventure), habitudeAlimentaire(habitudeAlimentaire),
       typeDeplacement(typeDeplacement), strategieDeplacement(strategieDeplacement) {}
 
+void Animal::methodeVidePourFaireUneAbstracClasse(){
+    
+}
+
 void Animal::seDeplacer() {
     // Implémentez le comportement de déplacement de l'animal ici
     this->strategieDeplacement->deplacer(*this);
@@ -28,4 +32,8 @@ void Animal::reproduire() {
 
 void Animal::chasser() {
     // Implémentez le comportement de chasser de l'animal ici
+}
+
+int Animal::ceQuiCePasseLorsDuDeplacement() {
+    // Implémentez ce qui ce passe si l'annimal arrive sur la nouvelle position
 }

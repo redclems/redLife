@@ -13,6 +13,7 @@ public:
 
     bool estEau();
     bool estCache();
+    virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 
 #endif // DECOR_HPP

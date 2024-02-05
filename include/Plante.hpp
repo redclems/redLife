@@ -9,7 +9,9 @@ private:
     bool pousseDansEau;
 
 public:
-    Plante(int x, int y, std::string s, CouleurAnimal c, Carte* carte,  int niveauNutrition, bool pousseDansEau);
+    Plante(int x, int y, char s, CouleurAnimal c, Carte* carte,  int niveauNutrition, bool pousseDansEau);
+
+    virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 
 #endif // PLANTE_HPP
