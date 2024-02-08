@@ -33,6 +33,7 @@ public:
     void boire();
     void reproduire();
     void chasser();
+    int ceQuiCePasseLorsDuDeplacement();
     virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 

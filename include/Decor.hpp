@@ -9,7 +9,7 @@ private:
     bool cache;
     bool eau;
 public:
-    Decor(int x, int y, char s, CouleurAnimal c, Carte* carte, bool cache, bool eau);
+    Decor(int x, int y, char s, CouleurAnimal c, Carte* carte, bool cache, bool eau, bool marchable);
 
     bool estEau();
     bool estCache();

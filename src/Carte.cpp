@@ -8,6 +8,7 @@
 #include "Decor.hpp"
 #include "Plante.hpp"
 #include "Animal.hpp"
+#include "Animaux.hpp"
 
 Carte::Carte(int hauteur, int largeur) : hauteur(hauteur), largeur(largeur){
     // Initialisation de la matrice d'éléments représentant la carte
@@ -26,49 +27,75 @@ int random(int min, int max) {
 
 void Carte::createMap() {
     
-    //nbPoint d'eau au hasard entre 3 et 
-    int min = int((this->hauteur*this->largeur)/(10*10));
-    int max = min*2; 
+    std::cout << "taille carte : y" << this->hauteur << " / x < " << this->largeur << std::endl;
 
-    int nbPointEau = random(min, max);
+    for (int i = 0; i < this->hauteur; ++i) {
+        for (int j = 0; j < this->largeur; ++j) {
+            //Les poind d'eau
+            int rand = random(0, 100);
+            if (rand < 1 && !positionOccupee(j, i)) {
 
-    for(int i = 0; i < nbPointEau; i++){
-        int x = random(0, this->largeur);
-        int y = random(0, this->hauteur);
-
-        int laregeurdx = random(1, this->largeur/20);
-        int hauteurdy  = random(1, this->hauteur/20);
-        for (int dx = -laregeurdx; dx <= laregeurdx; dx++) {
-            for (int dy = -hauteurdy; dy <= hauteurdy; dy++) {
-                int newX = x + dx;
-                int newY = y + dy;
-                if(newX >= 0 && newY >= 0 && newX<largeur && newY<hauteur){
-                    this->elements[newY][newX] = Decor(newX, newY, 'e', CouleurAnimal::BLEU, this, false, true);
+                int laregeurdx = random(1, 4);
+                int hauteurdy  = random(1, 4);
+                for (int dx = -laregeurdx; dx <= laregeurdx; dx++) {
+                    for (int dy = -hauteurdy; dy <= hauteurdy; dy++) {
+                        int newX = i + dx;
+                        int newY = j + dy;
+                        if(newX >= 0 && newY >= 0 && newX<hauteur && newY<largeur){
+                            this->elements[newX][newY] = Decor(newX, newY, 'e', CouleurAnimal::BLEU, this, false, true, true);
+                        }
+                    }
                 }
+            }
+            //buisson
+            else if (rand < 6 && !positionOccupee(j, i)) {
+                for (int dx = 0; dx <= 1; dx++) {
+                    for (int dy = 0; dy <= 1; dy++) {
+                        int newX = i + dx;
+                        int newY = j + dy;
+                        if(newX >= 0 && newY >= 0 && newX<hauteur && newY<largeur){
+                            this->elements[newX][newY] = Decor(newX, newY, '"', CouleurAnimal::VERT, this, true, false, true);
+                        }
+                    }
+                }
+            }else if(!this->elements[i][j].estMarchable()){
+                this->elements[i][j] = Decor(i, j, ' ', CouleurAnimal::VERT, this, false, false, true);
             }
         }
     }
 
+    std::cout << "plante c'est fait " << std::endl;
 
-    //les buisson
-    int nbBuisson = random(min*2, max*3);
+    for (int i = 0; i < this->hauteur; ++i) {
+        for (int j = 0; j < this->largeur; ++j) {
+            //annimaux
+            if (random(0, 100) < 8 && this->elements[i][j].estMarchable()) {
+                int animalType = random(0, 2);
+                /*
+                Decor* decor = dynamic_cast<Decor*>(&this->elements[i][j]);
 
-    for(int i = 0; i < nbBuisson; i++){
-        int x = random(0, this->largeur);
-        int y = random(0, this->hauteur);
-
-        for (int dx = 0; dx <= 1; dx++) {
-            for (int dy = 0; dy <= 1; dy++) {
-                int newX = x + dx;
-                int newY = y + dy;
-                if(newX >= 0 && newY >= 0 && newX<largeur && newY<hauteur){
-                    this->elements[newY][newX] = Decor(newX, newY, '"', CouleurAnimal::VERT, this, true, false);
+                if(decor->estEau()){
+                    animalType = random(0, 1);
+                }else{
+                    animalType = 2; 
+                }
+                */
+                switch (animalType) {
+                    case 0:
+                        this->elements[i][j] = Lapin(i, j, this, &this->elements[i][j]);
+                        break;
+                    case 1:
+                        this->elements[i][j] = Renard(i, j, this, &this->elements[i][j]);
+                        break;
+                    case 2:
+                        this->elements[i][j] = Poisson(i, j, this, &this->elements[i][j]);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
     }
-
-    //faire apparaitre les annimaux
 
 
     std::cout << "La carte a été créée avec succès !" << std::endl;
@@ -105,13 +132,13 @@ void Carte::afficherCarte() {
         tailleEcrireJour+=2;
     }
 
-    for (int i = 0; i < largeur-tailleEcrireJour; ++i) {
+    for (int i = 0; i < this->largeur-tailleEcrireJour; ++i) {
         std::cout << "-";
     }
 
     std::cout << "j: " << this->jour << " / h: " << this->heure << std::endl;
-    for (int i = 0; i < hauteur; ++i) {
-        for (int j = 0; j < largeur; ++j) {
+    for (int i = 0; i < this->hauteur; ++i) {
+        for (int j = 0; j < this->largeur; ++j) {
             elements[i][j].getDraw();
         }
 
@@ -121,6 +148,7 @@ void Carte::afficherCarte() {
 
 void Carte::nouvelHeure() {
     this->heure++;
+
 
     // Déplacer les annimaux
     for (int i = 0; i < this->hauteur; ++i) {
@@ -143,9 +171,19 @@ void Carte::nouvelJournee() {
     for (int i = 0; i < this->hauteur; ++i) {
         for (int j = 0; j < this->largeur; ++j) {
             //5% de chance d'une plante apres il faut faire d'autre plante
-            if (random(0, 100) < 3 && !positionOccupee(j, i)) {
+            if (random(0, 100) < 3) {
                 //todo permetre de verifier si on est une plante eau ou plante de terre
-                this->elements[i][j] = Plante(i, j, 'p',  CouleurAnimal::ROUGE, this, 2, false);
+                if (this->elements[i][j].estMarchable()) { // Vérifier si l'emplacement est vide
+                    bool inEau = false;
+                    /*
+                    Decor* decor = dynamic_cast<Decor*>(&this->elements[i][j]);
+                    if(decor->estEau()){
+                        inEau = true;
+                    }
+                    */
+
+                    this->elements[i][j] = Plante(i, j, 'p',  CouleurAnimal::BLANC, this, 2, inEau);
+                }
             }
         }
     }

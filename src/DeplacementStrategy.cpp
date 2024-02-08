@@ -3,11 +3,12 @@
 #include <cstdlib>
 #include <ctime>
 
-
+DeplacementBasic::DeplacementBasic(){
+    
+}
 
 void DeplacementBasic::deplacer(Animal& annimal) {
     // Initialiser le générateur de nombres aléatoires
-    srand(time(nullptr));
 
     // Générer un nombre aléatoire entre 0 et 3 pour déterminer la direction
     int direction = rand() % 5;
@@ -37,6 +38,8 @@ void DeplacementBasic::deplacer(Animal& annimal) {
             //pas bouger
             break;
     }
+
+
 
     annimal.newPos(NPosX, NPosY);
     annimal.getCarte()->deplacerObjet( annimal.getPosX(), annimal.getPosY(), NPosX, NPosY);

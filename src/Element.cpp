@@ -2,9 +2,20 @@
 #include <iostream>
 
 
-Element::Element() : posX(0), posY(0), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {}
+Element::Element() : posX(0), posY(0), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {
+    //this->elementAvant = new Vide();
+    this->marchable = false;
+}
 
-Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte) : posX(x), posY(y), symbol(s), couleur(c), type(type), carte(carte){}
+Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte) : posX(x), posY(y), symbol(s), couleur(c), type(type), carte(carte){
+    //this->elementAvant = new Vide();
+    this->marchable = false;
+}
+
+Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable) : posX(x), posY(y), symbol(s), couleur(c), type(type), carte(carte){
+    //this->elementAvant = new Vide();
+    this->marchable = marchable;
+}
 
 void Element::getDraw() {
     // Définir la couleur en fonction de celle souhaitée
@@ -41,9 +52,15 @@ bool Element::estAnimal() {
     return type == TypeElement::ANNIMAL;
 }
 
+
+bool Element:: estMarchable() {
+    // Vérifie si l'élément est de type animal
+    return this->marchable;
+}
+
 bool Element::estVide() {
     // Vérifie si l'élément est de type vide
-    return type == TypeElement::VIDE;
+    return this->type == TypeElement::VIDE;
 }
 
 Carte* Element::getCarte(){
@@ -62,6 +79,17 @@ void Element::newPos(int x, int y){
     this->posX = x;
     this->posY = y;
 }
+
+
+void Element::saveLeDernierElement(Element* ele){
+    this->elementAvant = ele;
+}
+
+Element* Element::leDernierElement(){
+    return this->elementAvant;
+}
+
+
 
 Vide::Vide() : Element() {
 }

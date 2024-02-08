@@ -12,6 +12,7 @@ public:
 
 class DeplacementBasic : public DeplacementStrategy {
 public:
+    DeplacementBasic();
     void deplacer(Animal& annimal) override;
 };
 
