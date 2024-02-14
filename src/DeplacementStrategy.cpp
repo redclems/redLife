@@ -1,20 +1,40 @@
 #include "DeplacementStrategy.hpp"
 
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
+
+#include "Carte.hpp"
+
 
 DeplacementBasic::DeplacementBasic(){
     
 }
 
-void DeplacementBasic::deplacer(Animal& annimal) {
+void DeplacementStrategy::deplacer(Animal* annimal) {
     // Initialiser le générateur de nombres aléatoires
 
-    // Générer un nombre aléatoire entre 0 et 3 pour déterminer la direction
-    int direction = rand() % 5;
+    Position newPos = calculDeplacer(annimal);
 
-    int NPosX = annimal.getPosX();
-    int NPosY = annimal.getPosY();;
+    bool res = annimal->getCarte()->deplacerAnnimal( annimal->getPosX(), annimal->getPosY(), newPos.posX, newPos.posY);
+
+    if(res){
+        annimal->newPos(newPos);
+    }
+
+}
+
+
+Position DeplacementBasic::calculDeplacer(Animal* annimal){
+    int direction, NPosX, NPosY;
+    Position newPos;
+
+    // Générer un nombre aléatoire entre 0 et 3 pour déterminer la direction
+    direction = rand() % 4;
+    //direction = 2;
+
+    NPosX = annimal->getPosX();
+    NPosY = annimal->getPosY();
 
     // Déplacer l'animal dans la direction choisie
     switch (direction) {
@@ -39,8 +59,9 @@ void DeplacementBasic::deplacer(Animal& annimal) {
             break;
     }
 
+    newPos.posX = NPosX;
+    newPos.posY = NPosY;
 
-
-    annimal.newPos(NPosX, NPosY);
-    annimal.getCarte()->deplacerObjet( annimal.getPosX(), annimal.getPosY(), NPosX, NPosY);
+    // Retourner la nouvelle position
+    return newPos;
 }

@@ -1,14 +1,16 @@
 #include "Animal.hpp"
 #include <iostream>
 
-Animal::Animal(int x, int y, char s, CouleurAnimal c, Carte* carte, float vitesse, int niveauFaim, int niveauSoif, int barreDeVie, float poids,
-           float tailleHauteur, float tailleLargeur, int gourmandise, int envieReproduction,
-           int espritAventure, AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement,
+Animal::Animal(Position pos, char s, CouleurAnimal c, Carte* carte, 
+           const ParamAnimal& parametres, AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement,
            DeplacementStrategy* strategieDeplacement) 
-    : Element(x, y, s, c, TypeElement::ANNIMAL,carte), vitesse(vitesse), niveauFaim(niveauFaim), niveauSoif(niveauSoif), barreDeVie(barreDeVie),
-      poids(poids), tailleHauteur(tailleHauteur), tailleLargeur(tailleLargeur), gourmandise(gourmandise),
-      envieReproduction(envieReproduction), espritAventure(espritAventure), habitudeAlimentaire(habitudeAlimentaire),
+    : Element(pos, s, c, TypeElement::ANNIMAL,carte),
+      parametres(parametres), habitudeAlimentaire(habitudeAlimentaire),
       typeDeplacement(typeDeplacement), strategieDeplacement(strategieDeplacement) {}
+
+Animal::Animal() : Element(){
+
+}
 
 void Animal::methodeVidePourFaireUneAbstracClasse(){
     
@@ -16,8 +18,7 @@ void Animal::methodeVidePourFaireUneAbstracClasse(){
 
 void Animal::seDeplacer() {
     // Implémentez le comportement de déplacement de l'animal ici
-    std::cout << "Un annimal ce deplacve rrhhh" << std::endl;
-    this->strategieDeplacement->deplacer(*this);
+    this->strategieDeplacement->deplacer(this);
 }
 
 void Animal::manger() {
@@ -34,6 +35,10 @@ void Animal::reproduire() {
 
 void Animal::chasser() {
     // Implémentez le comportement de chasser de l'animal ici
+}
+
+DeplacementType Animal::tDeplacement() {
+    return typeDeplacement;
 }
 
 int Animal::ceQuiCePasseLorsDuDeplacement() {

@@ -6,8 +6,8 @@
 #include "DeplacementType.hpp"
 #include "DeplacementStrategy.hpp"
 
-class Animal : public Element{
-private:
+
+struct ParamAnimal {
     float vitesse;
     int niveauFaim;
     int niveauSoif;
@@ -18,15 +18,23 @@ private:
     int gourmandise;
     int envieReproduction;
     int espritAventure;
+};
+
+
+class Animal : public Element{
+private:
+    ParamAnimal parametres;
     AlimentationType habitudeAlimentaire;
     DeplacementType typeDeplacement;
     DeplacementStrategy* strategieDeplacement;
 
 public:
-    Animal(int x, int y, char s, CouleurAnimal c, Carte* carte, float vitesse, int niveauFaim, int niveauSoif, int barreDeVie, float poids,
-           float tailleHauteur, float tailleLargeur, int gourmandise, int envieReproduction,
-           int espritAventure, AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement,
-           DeplacementStrategy* strategieDeplacement);
+
+    virtual ~Animal() = default; 
+    Animal(); 
+
+    Animal(Position pos, char s, CouleurAnimal c, Carte* carte,const ParamAnimal& parametres,
+        AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement, DeplacementStrategy* strategieDeplacement);
 
     void seDeplacer();
     void manger();
@@ -34,6 +42,7 @@ public:
     void reproduire();
     void chasser();
     int ceQuiCePasseLorsDuDeplacement();
+    DeplacementType tDeplacement();
     virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 

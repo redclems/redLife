@@ -4,19 +4,19 @@
 //declaration avancée de annimal
 //du a une dependance circulaire
 class Animal;
+struct Position;
 
 class DeplacementStrategy {
 public:
-    virtual void deplacer(Animal& annimal) = 0;
+    void deplacer(Animal* annimal);
+
+    virtual Position calculDeplacer(Animal* annimal) = 0;
 };
 
 class DeplacementBasic : public DeplacementStrategy {
 public:
     DeplacementBasic();
-    void deplacer(Animal& annimal) override;
+    Position calculDeplacer(Animal* annimal) override;
 };
-
-#include "Animal.hpp"
-
 
 #endif // DEPLACEMENTSTRATEGY_HPP

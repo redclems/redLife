@@ -1,8 +1,9 @@
 #ifndef CARTE_HPP
 #define CARTE_HPP
 
-//declaration avancée de Element
-class Element;
+#include <vector>
+#include "Decor.hpp"
+#include "Animal.hpp"
 
 class Carte {
 private:
@@ -12,7 +13,9 @@ private:
     int largeur;
     int heure;
     int jour;
-    Element** elements; 
+    std::vector<std::vector<Decor>> decor; // Matrice pour les éléments décoratifs
+    std::vector<std::vector<Animal>> animaux; // Matrice pour les animaux utilisant la bibliothèque Sud
+
 
 public:
     Carte(int hauteur, int largeur);
@@ -22,10 +25,11 @@ public:
     void run();
     void nouvelJournee();
     void nouvelHeure();
-    void deplacerObjet(int x, int y, int newX, int newY);
+    bool deplacerAnnimal(int x, int y, int newX, int newY);
     bool positionOccupee(int x, int y);
-};
 
-#include "Element.hpp"
+    void suprimerAnnimal(int x, int y);
+    void suprimerDecor(int x, int y);
+};
 
 #endif // CARTE_HPP

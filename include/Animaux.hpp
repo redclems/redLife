@@ -5,21 +5,21 @@
 
 class Renard : public Animal {
 public:
-    Renard(int x, int y, Carte* carte, Element* elementAvant);
+    Renard(Position pos, Carte* carte);
 
     void methodeVidePourFaireUneAbstracClasse() override;
 };
 
 class Poisson : public Animal {
 public:
-    Poisson(int x, int y, Carte* carte, Element* elementAvant);
+    Poisson(Position pos, Carte* carte);
 
     void methodeVidePourFaireUneAbstracClasse() override;
 };
 
 class Lapin : public Animal {
 public:
-    Lapin(int x, int y, Carte* carte, Element* elementAvant);
+    Lapin(Position pos, Carte* carte);
 
     void methodeVidePourFaireUneAbstracClasse() override;
 };

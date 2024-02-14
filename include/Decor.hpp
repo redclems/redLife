@@ -2,14 +2,18 @@
 #define DECOR_HPP
 
 #include "Element.hpp"
-#include "CouleurAnimal.hpp"
 
 class Decor : public Element{
 private:
     bool cache;
     bool eau;
 public:
-    Decor(int x, int y, char s, CouleurAnimal c, Carte* carte, bool cache, bool eau, bool marchable);
+    Decor(Position pos, char s, CouleurAnimal c, Carte* carte, bool cache, bool eau, bool marchable);
+
+    Decor(Position pos, char s, CouleurAnimal c, TypeElement ele, Carte* carte, bool cache, bool eau, bool marchable);
+
+    virtual ~Decor() = default; 
+    Decor(); 
 
     bool estEau();
     bool estCache();
@@ -17,3 +21,4 @@ public:
 };
 
 #endif // DECOR_HPP
+

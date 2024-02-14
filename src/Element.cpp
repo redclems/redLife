@@ -2,17 +2,18 @@
 #include <iostream>
 
 
-Element::Element() : posX(0), posY(0), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {
+Element::Element() :    pos({0, 0}), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {
+    //this->elementAvant = new Vide();
+    this->marchable = false;
+    this->vide = true;
+}
+
+Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte) : pos(pos), symbol(s), couleur(c), type(type), carte(carte){
     //this->elementAvant = new Vide();
     this->marchable = false;
 }
 
-Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte) : posX(x), posY(y), symbol(s), couleur(c), type(type), carte(carte){
-    //this->elementAvant = new Vide();
-    this->marchable = false;
-}
-
-Element::Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable) : posX(x), posY(y), symbol(s), couleur(c), type(type), carte(carte){
+Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable) : pos(pos), symbol(s), couleur(c), type(type), carte(carte){
     //this->elementAvant = new Vide();
     this->marchable = marchable;
 }
@@ -68,35 +69,26 @@ Carte* Element::getCarte(){
 }
 
 int Element::getPosX(){
-    return this->posX;
+    return this->pos.posX;
 }
 
 int Element::getPosY(){
-    return this->posY;
+    return this->pos.posY;
 }
 
 void Element::newPos(int x, int y){
-    this->posX = x;
-    this->posY = y;
+    this->pos.posX = x;
+    this->pos.posY = y;
 }
 
-
-void Element::saveLeDernierElement(Element* ele){
-    this->elementAvant = ele;
+void Element::newPos(Position pos){
+    this->pos = pos;
 }
 
-Element* Element::leDernierElement(){
-    return this->elementAvant;
+TypeElement Element::getType(){
+    return this->type;
 }
 
-
-
-Vide::Vide() : Element() {
-}
-
-Vide::Vide(int x, int y, char s, CouleurAnimal c, Carte* carte)
-    : Element(x, y, s, c, TypeElement::VIDE, carte) {
-}
-
-void Vide::methodeVidePourFaireUneAbstracClasse() {
+void Element::editIcon(char s){
+    this->symbol = s;
 }

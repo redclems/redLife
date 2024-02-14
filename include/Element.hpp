@@ -1,25 +1,31 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
-#include "Carte.hpp"
+
+class Carte;
+
 #include "CouleurAnimal.hpp"
 #include "TypeElement.hpp"
 
-class Element {
-private:
+struct Position {
     int posX;
     int posY;
+};
+
+class Element {
+private:
+    Position pos;
     char symbol;
     CouleurAnimal couleur;
     TypeElement type;
     Carte* carte;
-    Element* elementAvant;
     bool marchable;
+    bool vide;
 
 public:
     Element();
-    Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte);
-    Element(int x, int y, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable);
+    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte);
+    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable);
 
     virtual void methodeVidePourFaireUneAbstracClasse() = 0;
 
@@ -34,19 +40,13 @@ public:
     int getPosY();
 
     void newPos(int x, int y);
+    void newPos(Position pos);
 
-    void saveLeDernierElement(Element* ele); //pour faire revenir si c'etait de l'eau ou un buisson
+    void editIcon(char s);
 
-    Element* leDernierElement();
+    TypeElement getType();
 };
 
-class Vide : public Element {
-public:
-    Vide();
-    Vide(int x, int y, char s, CouleurAnimal c, Carte* carte);
-
-    virtual void methodeVidePourFaireUneAbstracClasse() override;
-};
 
 
 #endif // ELEMENT_HPP
