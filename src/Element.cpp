@@ -1,21 +1,63 @@
 #include "Element.hpp"
+#include "Carte.hpp"
+
 #include <iostream>
 
+bool Element::afficherLesCauseDeMort = false;
 
 Element::Element() :    pos({0, 0}), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {
-    //this->elementAvant = new Vide();
     this->marchable = false;
     this->vide = true;
+    this->jourExistant = 0;
+    this->tempExistantMoyen = -1;
 }
 
-Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte) : pos(pos), symbol(s), couleur(c), type(type), carte(carte){
+Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte) 
+    : pos(pos), symbol(s), couleur(c), type(type), carte(carte){
     //this->elementAvant = new Vide();
     this->marchable = false;
+    this->jourExistant = 0;
+    this->tempExistantMoyen = -1;
 }
 
-Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable) : pos(pos), symbol(s), couleur(c), type(type), carte(carte){
-    //this->elementAvant = new Vide();
-    this->marchable = marchable;
+Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable) 
+    : pos(pos), symbol(s), couleur(c), type(type), carte(carte), marchable(marchable) {
+    this->jourExistant = 0;
+    this->tempExistantMoyen = -1;
+}
+
+Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, int tempExistantMoyen)
+    : pos(pos), symbol(s), couleur(c), type(type), carte(carte), tempExistantMoyen(tempExistantMoyen) {
+    this->jourExistant = 0;
+}
+
+Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable, int tempExistantMoyen) 
+    : pos(pos), symbol(s), couleur(c), type(type), carte(carte), marchable(marchable), tempExistantMoyen(tempExistantMoyen){
+    this->jourExistant = 0;
+}
+
+
+int random(int min, int max);
+
+void Element::addJour(){
+    if(tempExistantMoyen<0 || this->jourExistant <= tempExistantMoyen || (this->jourExistant > tempExistantMoyen && random(0, 100) < 90)){
+        this->jourExistant++;
+    }else{
+        this->getCarte()->suprimerElement(getPosX(), getPosY());
+        if(Element::afficherLesCauseDeMort){
+                switch (getType()) {
+                    case TypeElement::ANNIMAL:
+                        std::cout << "Mort de vieillesse d'un animal" << std::endl;
+                        break;
+                    default:
+                        break;
+                }
+        }
+    }
+}
+
+int Element::getAge(){
+    return jourExistant;
 }
 
 void Element::getDraw() {

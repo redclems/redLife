@@ -3,6 +3,7 @@
 
 #include "Animal.hpp"
 
+
 class Renard : public Animal {
 public:
     Renard(Position pos, Carte* carte);
@@ -24,5 +25,11 @@ public:
     void methodeVidePourFaireUneAbstracClasse() override;
 };
 
+class Schbalung : public Animal {
+public:
+    Schbalung(Position pos, Carte* carte);
+
+    void methodeVidePourFaireUneAbstracClasse() override;
+};
 
 #endif // ANIMAUX_HPP

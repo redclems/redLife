@@ -11,6 +11,8 @@ private:
 public:
     Plante(Position pos, char s, CouleurAnimal c, Carte* carte,  int niveauNutrition, bool pousseDansEau);
 
+    int getNiveauNutrition();
+
     virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 

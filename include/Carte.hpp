@@ -13,9 +13,9 @@ private:
     int largeur;
     int heure;
     int jour;
-    std::vector<std::vector<Decor>> decor; // Matrice pour les éléments décoratifs
-    std::vector<std::vector<Animal>> animaux; // Matrice pour les animaux utilisant la bibliothèque Sud
-
+    std::vector<std::vector<Decor *>> decor; // Matrice pour les éléments décoratifs
+    std::vector<std::vector<Animal *>> animaux; // Matrice pour les animaux
+    
 
 public:
     Carte(int hauteur, int largeur);
@@ -26,10 +26,16 @@ public:
     void nouvelJournee();
     void nouvelHeure();
     bool deplacerAnnimal(int x, int y, int newX, int newY);
-    bool positionOccupee(int x, int y);
+    bool positionEstOccupeer(int x, int y);
+    bool EnDehorDesLimte(int x, int y);
 
     void suprimerAnnimal(int x, int y);
     void suprimerDecor(int x, int y);
+    void suprimerElement(int x, int y);
+    void suprimerDecor(int x, int y, bool eau);
+    void addAnnimal(int x, int y, Animal* animal);
+
+    bool peuxAllerSur(int newX, int newY, Animal* animal);
 };
 
 #endif // CARTE_HPP

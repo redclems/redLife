@@ -2,6 +2,7 @@
 #define ANIMAL_HPP
 
 #include "Element.hpp"
+#include "Plante.hpp"
 #include "AlimentationType.hpp"
 #include "DeplacementType.hpp"
 #include "DeplacementStrategy.hpp"
@@ -18,15 +19,26 @@ struct ParamAnimal {
     int gourmandise;
     int envieReproduction;
     int espritAventure;
+    int tempPourEtreAdulte;
+    int tempExistantMoyen;
+};
+
+enum class TypeAnnimal {
+    RENARD,
+    POISSON,
+    LAPIN,
+    SCHBALUNG
 };
 
 
 class Animal : public Element{
 private:
     ParamAnimal parametres;
+    TypeAnnimal typeAnnimal;
     AlimentationType habitudeAlimentaire;
     DeplacementType typeDeplacement;
     DeplacementStrategy* strategieDeplacement;
+    int dernierReproduction;
 
 public:
 
@@ -34,16 +46,29 @@ public:
     Animal(); 
 
     Animal(Position pos, char s, CouleurAnimal c, Carte* carte,const ParamAnimal& parametres,
-        AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement, DeplacementStrategy* strategieDeplacement);
+        AlimentationType habitudeAlimentaire, DeplacementType typeDeplacement, DeplacementStrategy* strategieDeplacement, TypeAnnimal typeAnnimal);
 
     void seDeplacer();
-    void manger();
+    void newJour();
+    void manger(Plante* plt);
+    void manger(Animal* annimal);
+    bool reproduire(Animal* annimal);
     void boire();
-    void reproduire();
-    void chasser();
     int ceQuiCePasseLorsDuDeplacement();
     DeplacementType tDeplacement();
-    virtual void methodeVidePourFaireUneAbstracClasse() override;
+    AlimentationType tAlimentaire();
+    TypeAnnimal tAnnimal();
+    ParamAnimal getParam();
+    int getDernierReproduction();
+    void resetDernierReproduction();
+
+    void addDegat(int niv);
+    void delFaim(int niv);
+
+
+    static Animal* creerNouvelAnimal(TypeAnnimal typeAnimal, int newX, int newY, Carte* carte);
+
+    virtual void methodeVidePourFaireUneAbstracClasse();
 };
 
 #endif // ANIMAL_HPP

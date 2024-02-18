@@ -4,6 +4,7 @@
 
 class Carte;
 
+#include <random>
 #include "CouleurAnimal.hpp"
 #include "TypeElement.hpp"
 
@@ -18,17 +19,23 @@ private:
     char symbol;
     CouleurAnimal couleur;
     TypeElement type;
-    Carte* carte;
     bool marchable;
     bool vide;
+    int jourExistant;
+    int tempExistantMoyen;
 
 public:
+    static bool afficherLesCauseDeMort;
+    Carte* carte;
     Element();
     Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte);
+    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, int tempExistantMoyen);
     Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable);
+    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable, int tempExistantMoyen);
 
     virtual void methodeVidePourFaireUneAbstracClasse() = 0;
 
+    void addJour();
     void getDraw();
     bool estAnimal();
     bool estVide();
@@ -45,6 +52,8 @@ public:
     void editIcon(char s);
 
     TypeElement getType();
+
+    int getAge();
 };
 
 
