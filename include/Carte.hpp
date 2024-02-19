@@ -34,7 +34,11 @@ public:
     void suprimerElement(int x, int y);
     void suprimerDecor(int x, int y, bool eau);
     void addAnnimal(int x, int y, Animal* animal);
+    Animal* getAnnimal(int x, int y);
 
+    bool estUnHerbivore(int x, int y);
+    bool estMemeTypeQue(int x, int y, Animal* animal);
+    bool ilYaUnePlante(int x, int y);
     bool peuxAllerSur(int newX, int newY, Animal* animal);
 };
 

@@ -191,7 +191,7 @@ void Carte::nouvelJournee() {
         for (int x = 0; x < this->largeur; ++x) {
             //5% de chance d'une plante apres il faut faire d'autre plante
 
-            if (random(0, 100) < 3) {
+            if (random(0, 100) < 2) {
                 //todo permetre de verifier si on est une plante eau ou plante de terre
                 if (this->decor[x][y]->estMarchable()) { // Vérifier si l'emplacement est vide
                     bool inEau = false;
@@ -235,6 +235,10 @@ void Carte::addAnnimal(int x, int y, Animal* animal){
     animaux[x][y] = animal;
 }
 
+Animal* Carte::getAnnimal(int x, int y){
+    return animaux[x][y];
+}
+
 void Carte::suprimerElement(int x, int y){
     //a jout de l'age au elment
     if (this->animaux[x][y]->estVide()) {
@@ -262,6 +266,11 @@ bool Carte::deplacerAnnimal(int x, int y, int newX, int newY) {
     
     if (!peuxAllerSur(newX, newY, animaux[x][y])) {
         //std::cout << "en dehors des limite" << std::endl;
+        return false;
+    }
+
+    //verifier que le deplacement ne depasse pas la vitesse de deplacement de l'annimal
+    if (sqrt(pow(newX - x, 2) + pow(newY - y, 2)) > animaux[x][y]->getParam().vitesse+0.5) {
         return false;
     }
 
@@ -300,6 +309,28 @@ bool Carte::deplacerAnnimal(int x, int y, int newX, int newY) {
     return false;
 }
 
+bool Carte::estMemeTypeQue(int x, int y, Animal* animal){
+    if(this->animaux[x][y]->tAnnimal() == animal->tAnnimal()) {
+        return true;
+    }
+    return false;
+}
+
+bool Carte::estUnHerbivore(int x, int y){
+    return animaux[x][y]->tAlimentaire() == AlimentationType::HERBIVORE;
+}
+
+
+bool Carte::ilYaUnePlante(int x, int y){
+    if(this->decor[x][y]->getType() == TypeElement::PLANTE){
+        Plante* plantePtr = dynamic_cast<Plante*>(this->decor[x][y]);
+        if (plantePtr != NULL) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Carte::peuxAllerSur(int newX, int newY, Animal* animal){
     if (EnDehorDesLimte(newX, newY)) {
         //std::cout << "en dehors des limite" << std::endl;
@@ -331,6 +362,8 @@ bool Carte::EnDehorDesLimte(int x, int y){
         return false;
     }
 }
+
+
 
 
 bool Carte::positionEstOccupeer(int x, int y) {

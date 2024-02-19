@@ -60,20 +60,17 @@ void Animal::newJour() {
     addJour();
 }
 
+bool Animal::peuxSeReproduire(){
+    if(this->getAge() < this->getParam().tempPourEtreAdulte || this->getDernierReproduction() <= 2 || this->getParam().niveauFaim <= 0){
+        return false;
+    }
+    return true;
+} 
+
 bool Animal::reproduire(Animal* animal) {
     // Implémentez le comportement de reproduction de l'animal ici
 
-    //voir si les annimaux peuvent ce reproduire
-    if(this->getAge() < this->getParam().tempPourEtreAdulte || animal->getAge() < animal->getParam().tempPourEtreAdulte){
-        return false;
-    }
-
-    if(this->getDernierReproduction() <= 2 || animal->getDernierReproduction() <= 2){
-        //les annimaux peuvent ce reproduire que les deux jour ce pour toute les espece
-        return false;
-    }
-
-    if(this->getParam().niveauFaim <= 0 || animal->getParam().niveauFaim <= 0){
+    if(!this->peuxSeReproduire() || !animal->peuxSeReproduire()){
         //les annimaux peuvent ce reproduire quand il on faim
         return false;
     }
@@ -189,9 +186,56 @@ TypeAnnimal Animal::tAnnimal(){
     return typeAnnimal;
 }
 
-int Animal::ceQuiCePasseLorsDuDeplacement() {
-    // Implémentez ce qui ce passe si l'annimal arrive sur la nouvelle position
-    // 0 - deplacement ok / 1 - deplacement impossible / 2 - element manger / 3 - reproduction / 4 - boire
+bool Animal::estPlusGrosQue(Animal* animal){
+    float surfaceThis = getParam().tailleHauteur * getParam().tailleLargeur;
+    float surfaceAutre = animal->getParam().tailleHauteur * animal->getParam().tailleLargeur;
 
-    return 0;
+    if (surfaceAutre > surfaceThis * 2.0f) {
+        return false;
+    }
+    return true;
+}
+
+std::vector<std::vector<int>> Animal::getMatrixAround() {
+    /*
+    retourner une matrice d'entier de 5*5 autour de lui avec 
+    0 pas possible de si déplacer, 1 case vide, 2 nourriture, 3 prédateur et 4 même type, 5 un herbivore mangeable, 6 herbivore pas mangeable
+    */
+    std::vector<std::vector<int>> matrix(5, std::vector<int>(5, 0)); // Initialisation de la matrice avec des zéros
+
+    // Déterminer la position de départ pour parcourir la matrice
+    int startX = getPosX() - 2;
+    int startY = getPosY() - 2;
+
+    // Parcourir les éléments autour de l'animal dans la carte
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            // Vérifier si la position est valide sur la carte
+            int x = startX + i;
+            int y = startY + j;
+            if (!carte->EnDehorDesLimte(x, y)) {
+                if(carte->positionEstOccupeer(x,  y)){//si il y a un annimal
+                    if(carte->estMemeTypeQue(x, y, this)){//meme type
+                        matrix[i][j] = 4; 
+                    }else if(carte->estUnHerbivore(x, y)){
+                        if(estPlusGrosQue(carte->getAnnimal(x, y))){
+                            matrix[i][j] = 5;
+                        }else{
+                            matrix[i][j] = 6;
+                        }
+                    }else{//dans le cas contraire c'est un predateur potenciel
+                        matrix[i][j] = 3; 
+                    }
+                }else if(carte->ilYaUnePlante(x, y) && (this->tAlimentaire() == AlimentationType::HERBIVORE || this->tAlimentaire() == AlimentationType::OMNIVORE)){ //pour les mangeur de plante
+                    matrix[i][j] = 2;
+                }else if(carte->peuxAllerSur(x, y, this)){
+                    matrix[i][j] = 1; 
+                }else{
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    return matrix;
 }

@@ -11,6 +11,8 @@ class Carte;
 struct Position {
     int posX;
     int posY;
+    Position(int xCoord, int yCoord) : posX(xCoord), posY(yCoord) {}
+    Position():posX(0), posY(0){}
 };
 
 class Element {

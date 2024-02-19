@@ -1,6 +1,7 @@
 #ifndef ANIMAL_HPP
 #define ANIMAL_HPP
 
+#include <vector>
 #include "Element.hpp"
 #include "Plante.hpp"
 #include "AlimentationType.hpp"
@@ -53,17 +54,21 @@ public:
     void manger(Plante* plt);
     void manger(Animal* annimal);
     bool reproduire(Animal* annimal);
+    bool estPlusGrosQue(Animal* animal);
     void boire();
-    int ceQuiCePasseLorsDuDeplacement();
     DeplacementType tDeplacement();
     AlimentationType tAlimentaire();
     TypeAnnimal tAnnimal();
     ParamAnimal getParam();
     int getDernierReproduction();
     void resetDernierReproduction();
+    std::vector<std::vector<int>> getMatrixAround();
+    bool peuxSeReproduire();
 
     void addDegat(int niv);
     void delFaim(int niv);
+
+
 
 
     static Animal* creerNouvelAnimal(TypeAnnimal typeAnimal, int newX, int newY, Carte* carte);

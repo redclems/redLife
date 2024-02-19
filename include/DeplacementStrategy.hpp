@@ -19,4 +19,16 @@ public:
     Position calculDeplacer(Animal* annimal) override;
 };
 
+class DeplacementReflechitHerbivore : public DeplacementStrategy {
+public:
+    DeplacementReflechitHerbivore();
+    Position calculDeplacer(Animal* annimal) override;
+};
+
+class DeplacementReflechitCarnivore : public DeplacementStrategy {
+public:
+    DeplacementReflechitCarnivore();
+    Position calculDeplacer(Animal* annimal) override;
+};
+
 #endif // DEPLACEMENTSTRATEGY_HPP
