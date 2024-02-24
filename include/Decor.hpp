@@ -5,19 +5,19 @@
 
 class Decor : public Element{
 private:
-    bool cache;
-    bool eau;
+    bool cache = false;
+    bool eau   = false;
 public:
-    Decor(Position pos, char s, CouleurAnimal c, Carte* carte, bool cache, bool eau, bool marchable);
+    Decor(Position pos, char s, Couleur c, Carte* carte, bool cache, bool eau, bool marchable);
 
-    Decor(Position pos, char s, CouleurAnimal c, TypeElement ele, Carte* carte, bool cache, bool eau, bool marchable, int tempExistantMoyen);
+    Decor(Position pos, char s, Couleur c, TypeElement ele, Carte* carte, bool cache, bool eau, bool marchable, int tempExistantMoyen);
 
-    virtual ~Decor() = default; 
-    Decor(); 
+    ~Decor() override {}; 
+    Decor() = default; 
 
     bool estEau();
     bool estCache();
-    void methodeVidePourFaireUneAbstracClasse() override;
+
 };
 
 #endif // DECOR_HPP

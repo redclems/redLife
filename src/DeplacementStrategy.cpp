@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-
+#include "Animal.hpp"
 #include "Carte.hpp"
 
 int random(int min, int max);
@@ -14,27 +14,27 @@ DeplacementReflechitHerbivore::DeplacementReflechitHerbivore() {}
 
 DeplacementReflechitCarnivore::DeplacementReflechitCarnivore() {}
 
-void DeplacementStrategy::deplacer(Animal* annimal) {
+void DeplacementStrategy::deplacer(Animal* animal) {
     // Initialiser le générateur de nombres aléatoires
 
-    Position newPos = calculDeplacer(annimal);
+    Position newPos = calculDeplacer(animal);
 
-    bool res = annimal->getCarte()->deplacerAnnimal( annimal->getPosX(), annimal->getPosY(), newPos.posX, newPos.posY);
+    bool res = animal->getCarte()->deplacerAnimal( animal->getPosX(), animal->getPosY(), newPos.posX, newPos.posY);
 
     if(res){
-        annimal->newPos(newPos);
+        animal->newPos(newPos);
     }
 
 }
 
-Position randomPos(Animal* annimal){
+Position randomPos(Animal* animal){
     int direction, NPosX, NPosY;
     Position newPos;
 
     direction = random(0, 4);
 
-    NPosX = annimal->getPosX();
-    NPosY = annimal->getPosY();
+    NPosX = animal->getPosX();
+    NPosY = animal->getPosY();
 
     // Déplacer l'animal dans la direction choisie
     switch (direction) {

@@ -10,25 +10,25 @@ class DeplacementStrategy {
 public:
     void deplacer(Animal* annimal);
 
-    virtual Position calculDeplacer(Animal* annimal) = 0;
+    virtual Position calculDeplacer(Animal* animal) = 0;
 };
 
 class DeplacementBasic : public DeplacementStrategy {
 public:
     DeplacementBasic();
-    Position calculDeplacer(Animal* annimal) override;
+    Position calculDeplacer(Animal* animal) override;
 };
 
 class DeplacementReflechitHerbivore : public DeplacementStrategy {
 public:
     DeplacementReflechitHerbivore();
-    Position calculDeplacer(Animal* annimal) override;
+    Position calculDeplacer(Animal* animal) override;
 };
 
 class DeplacementReflechitCarnivore : public DeplacementStrategy {
 public:
     DeplacementReflechitCarnivore();
-    Position calculDeplacer(Animal* annimal) override;
+    Position calculDeplacer(Animal* animal) override;
 };
 
 #endif // DEPLACEMENTSTRATEGY_HPP

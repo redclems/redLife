@@ -9,11 +9,10 @@ private:
     bool pousseDansEau;
 
 public:
-    Plante(Position pos, char s, CouleurAnimal c, Carte* carte,  int niveauNutrition, bool pousseDansEau);
+    Plante(Position pos, char s, Couleur c, Carte* carte,  int niveauNutrition, bool pousseDansEau);
 
     int getNiveauNutrition();
 
-    virtual void methodeVidePourFaireUneAbstracClasse() override;
 };
 
 #endif // PLANTE_HPP

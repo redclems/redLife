@@ -4,32 +4,35 @@
 #include "Animal.hpp"
 
 
+class Vide : public Animal {
+public:
+    Vide() : Animal() {};
+    ~Vide() override = default; 
+};
+
+
 class Renard : public Animal {
 public:
     Renard(Position pos, Carte* carte);
-
-    void methodeVidePourFaireUneAbstracClasse() override;
+    ~Renard() override = default; 
 };
 
 class Poisson : public Animal {
 public:
     Poisson(Position pos, Carte* carte);
-
-    void methodeVidePourFaireUneAbstracClasse() override;
+    ~Poisson() override = default; 
 };
 
 class Lapin : public Animal {
 public:
     Lapin(Position pos, Carte* carte);
-
-    void methodeVidePourFaireUneAbstracClasse() override;
+    ~Lapin() override = default; 
 };
 
 class Schbalung : public Animal {
 public:
     Schbalung(Position pos, Carte* carte);
-
-    void methodeVidePourFaireUneAbstracClasse() override;
+    ~Schbalung() override = default; 
 };
 
 #endif // ANIMAUX_HPP

@@ -5,14 +5,14 @@
 
 bool Element::afficherLesCauseDeMort = false;
 
-Element::Element() :    pos({0, 0}), symbol(' '), couleur(CouleurAnimal::BLANC), type(TypeElement::VIDE) {
+Element::Element() :    pos({0, 0}), symbol(' '), couleur(Couleur::BLANC), type(TypeElement::VIDE) {
     this->marchable = false;
     this->vide = true;
     this->jourExistant = 0;
     this->tempExistantMoyen = -1;
 }
 
-Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte) 
+Element::Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte) 
     : pos(pos), symbol(s), couleur(c), type(type), carte(carte){
     //this->elementAvant = new Vide();
     this->marchable = false;
@@ -20,18 +20,19 @@ Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte*
     this->tempExistantMoyen = -1;
 }
 
-Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable) 
+Element::Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte, bool marchable) 
     : pos(pos), symbol(s), couleur(c), type(type), carte(carte), marchable(marchable) {
+
     this->jourExistant = 0;
     this->tempExistantMoyen = -1;
 }
 
-Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, int tempExistantMoyen)
+Element::Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte, int tempExistantMoyen)
     : pos(pos), symbol(s), couleur(c), type(type), carte(carte), tempExistantMoyen(tempExistantMoyen) {
     this->jourExistant = 0;
 }
 
-Element::Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable, int tempExistantMoyen) 
+Element::Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte, bool marchable, int tempExistantMoyen) 
     : pos(pos), symbol(s), couleur(c), type(type), carte(carte), marchable(marchable), tempExistantMoyen(tempExistantMoyen){
     this->jourExistant = 0;
 }
@@ -41,9 +42,9 @@ int random(int min, int max);
 
 void Element::addJour(){
     if(tempExistantMoyen<0 || this->jourExistant <= tempExistantMoyen || (this->jourExistant > tempExistantMoyen && random(0, 100) < 90)){
-        this->jourExistant++;
+        jourExistant++;
     }else{
-        this->getCarte()->suprimerElement(getPosX(), getPosY());
+        getCarte()->suprimerElement(getPosX(), getPosY());
         if(Element::afficherLesCauseDeMort){
                 switch (getType()) {
                     case TypeElement::ANNIMAL:
@@ -56,32 +57,28 @@ void Element::addJour(){
     }
 }
 
-int Element::getAge(){
-    return jourExistant;
-}
-
-void Element::getDraw() {
+void Element::getDraw() const{
     // Définir la couleur en fonction de celle souhaitée
     switch (couleur) {
-        case CouleurAnimal::ROUGE:
+        case Couleur::ROUGE:
             std::cout << "\033[1;31m" << symbol << "\033[0m"; // Rouge
             break;
-        case CouleurAnimal::VERT:
+        case Couleur::VERT:
             std::cout << "\033[1;32m" << symbol << "\033[0m"; // Vert
             break;
-        case CouleurAnimal::JAUNE:
+        case Couleur::JAUNE:
             std::cout << "\033[1;33m" << symbol << "\033[0m"; // Jaune
             break;
-        case CouleurAnimal::BLEU:
+        case Couleur::BLEU:
             std::cout << "\033[1;34m" << symbol << "\033[0m"; // Bleu
             break;
-        case CouleurAnimal::ROSE:
+        case Couleur::ROSE:
             std::cout << "\033[1;35m" << symbol << "\033[0m"; // Rose
             break;
-        case CouleurAnimal::CYAN:
+        case Couleur::CYAN:
             std::cout << "\033[1;36m" << symbol << "\033[0m"; // Cyan
             break;
-        case CouleurAnimal::BLANC:
+        case Couleur::BLANC:
             std::cout << "\033[1;37m" << symbol << "\033[0m"; // Blanc
             break;
         default:
@@ -90,32 +87,14 @@ void Element::getDraw() {
     }
 }
 
-bool Element::estAnimal() {
+bool Element::estAnimal() const{
     // Vérifie si l'élément est de type animal
     return type == TypeElement::ANNIMAL;
 }
 
-
-bool Element:: estMarchable() {
-    // Vérifie si l'élément est de type animal
-    return this->marchable;
-}
-
-bool Element::estVide() {
+bool Element::estVide() const{
     // Vérifie si l'élément est de type vide
-    return this->type == TypeElement::VIDE;
-}
-
-Carte* Element::getCarte(){
-    return this->carte;
-}
-
-int Element::getPosX(){
-    return this->pos.posX;
-}
-
-int Element::getPosY(){
-    return this->pos.posY;
+    return type == TypeElement::VIDE;
 }
 
 void Element::newPos(int x, int y){
@@ -125,10 +104,6 @@ void Element::newPos(int x, int y){
 
 void Element::newPos(Position pos){
     this->pos = pos;
-}
-
-TypeElement Element::getType(){
-    return this->type;
 }
 
 void Element::editIcon(char s){

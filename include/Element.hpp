@@ -1,11 +1,9 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
-
 class Carte;
 
-#include <random>
-#include "CouleurAnimal.hpp"
+#include "Couleur.hpp"
 #include "TypeElement.hpp"
 
 struct Position {
@@ -19,7 +17,7 @@ class Element {
 private:
     Position pos;
     char symbol;
-    CouleurAnimal couleur;
+    Couleur couleur;
     TypeElement type;
     bool marchable;
     bool vide;
@@ -30,33 +28,33 @@ public:
     static bool afficherLesCauseDeMort;
     Carte* carte;
     Element();
-    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte);
-    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, int tempExistantMoyen);
-    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable);
-    Element(Position pos, char s, CouleurAnimal c, TypeElement type, Carte* carte, bool marchable, int tempExistantMoyen);
+    Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte);
+    Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte, int tempExistantMoyen);
+    Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte, bool marchable);
+    Element(Position pos, char s, Couleur c, TypeElement type, Carte* carte, bool marchable, int tempExistantMoyen);
 
-    virtual void methodeVidePourFaireUneAbstracClasse() = 0;
+    virtual ~Element() = 0;
 
     void addJour();
-    void getDraw();
-    bool estAnimal();
-    bool estVide();
-    Carte* getCarte();
+    void getDraw() const;
 
-    bool estMarchable();
-
-    int getPosX();
-    int getPosY();
+    bool estAnimal() const;
+    bool estVide() const;
+    bool estMarchable() const {return marchable;};
+    int getPosX() const {return pos.posX;};
+    int getPosY() const {return pos.posY;};
+    int getAge() const {return jourExistant;};
+    Carte* getCarte() const {return carte;};
+    TypeElement getType() const {return type;};
 
     void newPos(int x, int y);
     void newPos(Position pos);
 
     void editIcon(char s);
 
-    TypeElement getType();
-
-    int getAge();
 };
+
+inline Element::~Element() {}
 
 
 
